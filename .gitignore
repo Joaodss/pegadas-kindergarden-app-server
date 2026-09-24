@@ -1,0 +1,31 @@
+# Build output
+bin/
+obj/
+artifacts/
+publish/
+efbundle*
+
+# IDEs
+.vs/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.user
+*.suo
+*.DotSettings.user
+
+# Test results
+TestResults/
+*.trx
+coverage*.xml
+*.coverage
+
+# Local config and secrets
+appsettings.Local.json
+*.env
+.env*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db

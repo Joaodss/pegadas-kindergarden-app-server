@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Public contract of the Audit module: interfaces, DTOs and integration events other modules may use.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Pegadas.SharedKernel\Pegadas.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <Description>Pegadas API host: composition root, HTTP pipeline, auth, rate limiting, OpenAPI, health.</Description>
+    <UserSecretsId>pegadas-api</UserSecretsId>
+    <ContainerRepository>pegadas-api</ContainerRepository>
+  </PropertyGroup>
+
+  <!-- Build-time OpenAPI document (openapi/v1.json): the contract the mobile TS client is generated from.
+       Generated on Release builds; CI fails when the committed file is out of date. -->
+  <PropertyGroup>
+    <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)/../../openapi</OpenApiDocumentsDirectory>
+    <OpenApiGenerateDocumentsOptions>--file-name v1</OpenApiGenerateDocumentsOptions>
+    <OpenApiGenerateDocuments Condition="'$(Configuration)' != 'Release'">false</OpenApiGenerateDocuments>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Scalar.AspNetCore" />
+    <PackageReference Include="Microsoft.Extensions.Telemetry" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+    <PackageReference Include="Npgsql.OpenTelemetry" />
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" />
+    <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" />
+    <PackageReference Include="Azure.Identity" />
+    <!-- Lets this project act as the startup project for `dotnet ef` against the module contexts. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pegadas.BuildingBlocks\Pegadas.BuildingBlocks.csproj" />
+    <ProjectReference Include="..\Modules\Identity\Pegadas.Modules.Identity\Pegadas.Modules.Identity.csproj" />
+    <ProjectReference Include="..\Modules\Organization\Pegadas.Modules.Organization\Pegadas.Modules.Organization.csproj" />
+    <ProjectReference Include="..\Modules\Diary\Pegadas.Modules.Diary\Pegadas.Modules.Diary.csproj" />
+    <ProjectReference Include="..\Modules\Summaries\Pegadas.Modules.Summaries\Pegadas.Modules.Summaries.csproj" />
+    <ProjectReference Include="..\Modules\Audit\Pegadas.Modules.Audit\Pegadas.Modules.Audit.csproj" />
+    <ProjectReference Include="..\Modules\Notifications\Pegadas.Modules.Notifications\Pegadas.Modules.Notifications.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Pegadas.Api.IntegrationTests" />
+  </ItemGroup>
+
+</Project>

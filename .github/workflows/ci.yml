@@ -1,0 +1,74 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+          cache: true
+          cache-dependency-path: "**/*.csproj"
+
+      - name: Restore
+        run: dotnet restore Pegadas.slnx
+
+      - name: Format
+        run: dotnet format Pegadas.slnx --verify-no-changes --no-restore
+
+      - name: Build (warnings are errors; generates openapi/v1.json)
+        run: dotnet build Pegadas.slnx --configuration Release --no-restore
+
+      - name: OpenAPI contract is committed
+        run: |
+          if ! git diff --exit-code -- openapi/; then
+            echo "::error::openapi/v1.json is out of date. Build in Release locally and commit it."
+            exit 1
+          fi
+
+      # Architecture + integration tests. Integration tests start PostgreSQL with Testcontainers
+      # (Docker is available on ubuntu runners).
+      - name: Test
+        run: dotnet test --solution Pegadas.slnx --configuration Release --no-build
+
+      - name: Vulnerable packages
+        run: |
+          dotnet list Pegadas.slnx package --vulnerable --include-transitive 2>&1 | tee vulnerable.txt
+          if grep -q -i "has the following vulnerable packages" vulnerable.txt; then
+            echo "::error::Vulnerable NuGet packages found."
+            exit 1
+          fi
+
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: pegadas-api:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -1,0 +1,56 @@
+# Local development dependencies.
+#   docker compose up -d                 → PostgreSQL, Mailpit, Aspire dashboard
+#   docker compose --profile api up -d   → also the API container on http://localhost:8080
+# Normally the API runs from the IDE / `dotnet run` against these services.
+name: pegadas
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: pegadas
+      POSTGRES_USER: pegadas
+      POSTGRES_PASSWORD: pegadas_dev   # local only; real credentials live in Key Vault
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pegadas -d pegadas"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mailpit:
+    # SMTP sink with a web UI (http://localhost:8025) for when email is implemented.
+    image: axllent/mailpit:v1.31
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  aspire-dashboard:
+    # OpenTelemetry UI for traces, metrics and logs: http://localhost:18888
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:13.5
+    environment:
+      DASHBOARD__FRONTEND__AUTHMODE: Unsecured
+      DASHBOARD__OTLP__AUTHMODE: Unsecured
+    ports:
+      - "18888:18888"
+      - "4317:18889"   # OTLP gRPC
+      - "4318:18890"   # OTLP HTTP
+
+  api:
+    profiles: ["api"]
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Pegadas: Host=postgres;Port=5432;Database=pegadas;Username=pegadas;Password=pegadas_dev
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://aspire-dashboard:18889
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:

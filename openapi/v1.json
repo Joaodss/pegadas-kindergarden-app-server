@@ -1,0 +1,66 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Pegadas API",
+    "description": "Backend of the Pegadas kindergarten diary. All /v1 endpoints use problem+json errors with a stable `code`.",
+    "version": "v1"
+  },
+  "paths": {
+    "/v1/meta/min-version": {
+      "get": {
+        "tags": [
+          "Meta"
+        ],
+        "summary": "Minimum supported and latest app versions",
+        "description": "Called by the app at start-up to decide whether an update is mandatory.",
+        "operationId": "GetMinVersion",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MinVersionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MinVersionResponse": {
+        "required": [
+          "minimumVersion",
+          "latestVersion"
+        ],
+        "type": "object",
+        "properties": {
+          "minimumVersion": {
+            "type": "string",
+            "description": "Apps below this version must update (the API answers them with 426)."
+          },
+          "latestVersion": {
+            "type": "string",
+            "description": "Latest published app version."
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Access token from POST /v1/auth/pin (15 minutes).",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Meta"
+    }
+  ]
+}
