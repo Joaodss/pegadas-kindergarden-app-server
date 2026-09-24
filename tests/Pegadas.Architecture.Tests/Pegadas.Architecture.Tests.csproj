@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="NetArchTest.Rules" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The host references every module, so all module assemblies land in the test output. -->
+    <ProjectReference Include="..\..\src\Pegadas.Api\Pegadas.Api.csproj" />
+  </ItemGroup>
+
+</Project>

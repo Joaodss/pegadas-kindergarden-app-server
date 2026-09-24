@@ -1,0 +1,44 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="docker-compose.yml" />
+    <File Path="Dockerfile" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Pegadas.Api/Pegadas.Api.csproj" />
+    <Project Path="src/Pegadas.BuildingBlocks/Pegadas.BuildingBlocks.csproj" />
+    <Project Path="src/Pegadas.SharedKernel/Pegadas.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Audit/">
+    <Project Path="src/Modules/Audit/Pegadas.Modules.Audit/Pegadas.Modules.Audit.csproj" />
+    <Project Path="src/Modules/Audit/Pegadas.Modules.Audit.Contracts/Pegadas.Modules.Audit.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Diary/">
+    <Project Path="src/Modules/Diary/Pegadas.Modules.Diary/Pegadas.Modules.Diary.csproj" />
+    <Project Path="src/Modules/Diary/Pegadas.Modules.Diary.Contracts/Pegadas.Modules.Diary.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Identity/">
+    <Project Path="src/Modules/Identity/Pegadas.Modules.Identity/Pegadas.Modules.Identity.csproj" />
+    <Project Path="src/Modules/Identity/Pegadas.Modules.Identity.Contracts/Pegadas.Modules.Identity.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Notifications/">
+    <Project Path="src/Modules/Notifications/Pegadas.Modules.Notifications/Pegadas.Modules.Notifications.csproj" />
+    <Project Path="src/Modules/Notifications/Pegadas.Modules.Notifications.Contracts/Pegadas.Modules.Notifications.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Organization/">
+    <Project Path="src/Modules/Organization/Pegadas.Modules.Organization/Pegadas.Modules.Organization.csproj" />
+    <Project Path="src/Modules/Organization/Pegadas.Modules.Organization.Contracts/Pegadas.Modules.Organization.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Summaries/">
+    <Project Path="src/Modules/Summaries/Pegadas.Modules.Summaries/Pegadas.Modules.Summaries.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Pegadas.Api.IntegrationTests/Pegadas.Api.IntegrationTests.csproj" />
+    <Project Path="tests/Pegadas.Architecture.Tests/Pegadas.Architecture.Tests.csproj" />
+  </Folder>
+</Solution>

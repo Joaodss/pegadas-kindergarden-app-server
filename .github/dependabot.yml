@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      microsoft:
+        patterns: ["Microsoft.*", "System.*"]
+      opentelemetry:
+        patterns: ["OpenTelemetry*", "Azure.Monitor.OpenTelemetry*", "Npgsql.OpenTelemetry"]
+      efcore-npgsql:
+        patterns: ["Npgsql*", "EFCore.*"]
+      testing:
+        patterns: ["xunit*", "Testcontainers*", "NetArchTest*"]
+
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly

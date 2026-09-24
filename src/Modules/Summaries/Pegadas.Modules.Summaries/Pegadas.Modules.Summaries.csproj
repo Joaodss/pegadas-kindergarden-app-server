@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Pegadas.BuildingBlocks\Pegadas.BuildingBlocks.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Pegadas.Modules.Summaries.Tests" />
+    <InternalsVisibleTo Include="Pegadas.Api.IntegrationTests" />
+  </ItemGroup>
+
+</Project>
