@@ -20,9 +20,9 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
-      - uses: github/codeql-action/init@v3
+      - uses: github/codeql-action/init@v4
         with:
           languages: csharp
           build-mode: manual
       - run: dotnet build Pegadas.slnx --configuration Release -p:OpenApiGenerateDocuments=false
-      - uses: github/codeql-action/analyze@v3
+      - uses: github/codeql-action/analyze@v4
